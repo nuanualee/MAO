@@ -1,30 +1,55 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core';
-import Header from "../components/Header.js"
-import WhatIsMao from "./MaoCard.js"
-import maoCat from "../assets/background.jpg"
-
+import { Nav, Navbar, Container, Button } from "react-bootstrap"
+import {LinkContainer} from "react-router-bootstrap"
+import { AppBar } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { resetUserSession } from '../service/AuthService';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: '100vh',
-    backgroundImage: `url(${maoCat})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
+  icon: {
+      height: "80px",
   },
+  appbar: {
+    background: "none",
+  },  
 }));
 
-function Navigation() {
-const classes = useStyles();
+const getToken = sessionStorage.getItem("token")
+console.log(getToken)
+
+const Navigation = () => {
+  const classes = useStyles();
+  const navigate = useNavigate()
+
+  const logoutHandler = () => {
+    resetUserSession();
+    navigate("/login")
+    
+  }
   return (
+  <AppBar className = {classes.appbar} elevation = {0}>
+    <Navbar style={{backgroundColor: "transparent"}} variant="light" expand="lg">
+    <Container >
+      <LinkContainer to = "/">
+        <Navbar.Brand><img src={require("../assets/mao.png")} className={classes.icon}></img></Navbar.Brand>
+      </LinkContainer>
+      
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+  
+        <Nav className="me-auto"><LinkContainer to = "/login">
+            <Nav.Link>Login</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to = "/signup">
+            <Nav.Link>Sign Up</Nav.Link>
+          </LinkContainer><Nav.Link onClick={logoutHandler}>Sign Out</Nav.Link></Nav>
 
-    <div className = {classes.root}>
-        <CssBaseline />
-        <Header />
-        <WhatIsMao />
-
-    </div>
+      
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
+</AppBar>
   )
 }
 

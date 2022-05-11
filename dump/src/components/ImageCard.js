@@ -34,6 +34,9 @@ export default function ImageCard(props, checked) {
                 {props.description}
             </Typography>
         </CardContent>
+        <CardActions>
+            <Button size="small" >Get Started</Button>
+        </CardActions>
         </Card>
       </Collapse>
     
