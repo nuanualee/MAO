@@ -58,7 +58,7 @@ const Navigation = () => {
           {user && (
             <>
               <LinkContainer to = "/main">
-                <Nav.Link>Connect Now</Nav.Link>
+                <Nav.Link>Start</Nav.Link>
               </LinkContainer>
               <Nav className="me-auto">
                 <Nav.Link onClick={logoutHandler}>Sign Out</Nav.Link>
