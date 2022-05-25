@@ -3,7 +3,7 @@ import { Nav, Navbar, Container, Button } from "react-bootstrap"
 import {LinkContainer} from "react-router-bootstrap"
 import { AppBar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { resetUserSession } from '../service/AuthService';
+import { getUser, resetUserSession } from '../service/AuthService';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +21,9 @@ console.log(getToken)
 const Navigation = () => {
   const classes = useStyles();
   const navigate = useNavigate()
+  const user = getUser();
+  const name = user !== "undefined" && user ? user.name : "";
+  console.log("Name",name)
 
   const logoutHandler = () => {
     resetUserSession();
@@ -31,6 +34,7 @@ const Navigation = () => {
   <AppBar className = {classes.appbar} elevation = {0}>
     <Navbar style={{backgroundColor: "transparent"}} variant="light" expand="lg">
     <Container >
+
       <LinkContainer to = "/">
         <Navbar.Brand><img src={require("../assets/mao.png")} className={classes.icon}></img></Navbar.Brand>
       </LinkContainer>
@@ -38,13 +42,30 @@ const Navigation = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
   
-        <Nav className="me-auto"><LinkContainer to = "/login">
-            <Nav.Link>Login</Nav.Link>
-          </LinkContainer>
-          <LinkContainer to = "/signup">
-            <Nav.Link>Sign Up</Nav.Link>
-          </LinkContainer><Nav.Link onClick={logoutHandler}>Sign Out</Nav.Link></Nav>
 
+        <Nav className="me-auto">
+          {!user && (
+            <>
+              <LinkContainer to = "/login">
+                <Nav.Link>Login</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to = "/signup">
+                <Nav.Link>Sign Up</Nav.Link>
+              </LinkContainer>
+            </> 
+          )}
+
+          {user && (
+            <>
+              <LinkContainer to = "/main">
+                <Nav.Link>Connect Now</Nav.Link>
+              </LinkContainer>
+              <Nav className="me-auto">
+                <Nav.Link onClick={logoutHandler}>Sign Out</Nav.Link>
+              </Nav>
+            </>
+          )}
+        </Nav>
       
       </Navbar.Collapse>
     </Container>

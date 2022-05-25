@@ -17,6 +17,7 @@ async function login(user) {
     // extract username
     const username = user.username;
     const password = user.password;
+    const id = user.id;
     if (!user || !username || !password) {
       return util.buildResponse(401, {
         message: 'username and password are required'
@@ -38,7 +39,7 @@ async function login(user) {
     // if username and password matches
     const userInfo = {
       username: dynamoUser.username,
-      name: dynamoUser.name
+      name: dynamoUser.name,
     }
     const token = auth.generateToken(userInfo)
     const response = {

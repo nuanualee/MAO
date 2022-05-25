@@ -16,6 +16,7 @@ async function register(userInfo) {
     const email = userInfo.email;
     const username = userInfo.username;
     const password = userInfo.password;
+
     // if fields are empty
     if (!username || !name || !email || !password) {
       return util.buildResponse(401, {
@@ -35,11 +36,13 @@ async function register(userInfo) {
     // unique username
     // encrypt password
     const encryptedPW = bcrypt.hashSync(password.trim(), 10);
+    const randomID = Math.floor(1000000000 + Math.random() * 9000000000);
     const user = {
       name: name,
       email: email,
       username: username.toLowerCase().trim(),
-      password: encryptedPW
+      password: encryptedPW,
+      id: randomID
     }
 
     // save to database
@@ -57,7 +60,8 @@ async function register(userInfo) {
       TableName: userTable,
       Key: {
         // usernaem is primary key
-        username: username
+        username: username,
+        
       }
     }
   
