@@ -1,8 +1,10 @@
 import React, {useRef,useEffect,useState} from 'react'
-import { getUser, resetUserSession, getToken, getID } from "../service/AuthService"
+import { getUser, getToken, getID, setNotes } from "../service/AuthService"
 import { makeStyles } from "@material-ui/core/styles";
+import testing from '../assets/DaleChallEasyWordList.js';
 
-
+import axios from "axios";
+const notesUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/notes"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: "20px"
   },
   mainButton: {
+    marginLeft: "10px",
     height: "40px",
     borderRadius: "10px",
     border: "none",
@@ -75,6 +78,12 @@ const useStyles = makeStyles((theme) => ({
     boxNote:{
       height:"100px",
       overflow: "scroll"
+    },
+    buttonBox:{
+      marginBottom: "15px"
+    },
+    message:{
+      marginBottom: "-25px"
     }
 }));
 
@@ -89,6 +98,32 @@ mic.lang = 'en-US'
 
 const Main = () => {
   const classes = useStyles();
+  const [state, setState] = useState({
+    value: "",
+    show: ""
+  });
+  const [isListening, setIsListening] = useState(false)
+  const [recording, isRecording] = useState(false)
+  const [note, setNote] = useState(null)
+  const [savedNotes, setSavedNotes] = useState([])
+  const [wordCounter, setWordCounter] = useState(0)
+  const [characterCounter, setCharacterCounter] = useState(0)
+  const [sentenceCounter, setSentenceCounter] = useState(0)
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [difficultWord, setDifficultWord] = useState(null)
+
+  const handleChange = (e) => {
+    setState({value: e.target.value})
+
+    console.log(e.target.value)
+    localStorage.setItem('topic', JSON.stringify(e.target.value));
+  }
+
+  // const submit = () => {
+  //   setState({show: state.value})
+  // } 
+
+  
 
   const user = getUser();
   const token = getToken();
@@ -118,10 +153,7 @@ const Main = () => {
     getVideo();
   }, [videoRef]);
 
-  const [isListening, setIsListening] = useState(false)
-  const [recording, isRecording] = useState(false)
-  const [note, setNote] = useState(null)
-  const [savedNotes, setSavedNotes] = useState([])
+  
   useEffect(() => {
     handleListen()
   }, [isListening])
@@ -132,7 +164,7 @@ const Main = () => {
       mic.onend = () => {
         console.log('continue..')
         mic.start()
-        
+      
       }
     } else {
       mic.stop()
@@ -149,17 +181,85 @@ const Main = () => {
         .map(result => result[0])
         .map(result => result.transcript)
         .join('')
+        
       console.log(transcript)
+      // wordCounter = transcript.split(" ").length
+
+
+      // {wordCounter == 0 ? (
+      //   setWordCounter(transcript.split(" ").length)
+      // ) : (
+      //   setWordCounter(savedNotes.split(" ").length)) 
+      // )}
+      setWordCounter(transcript.split(" ").length)
+      setCharacterCounter(transcript.length)
+      setSentenceCounter(transcript.split(".").length)
+      console.log(wordCounter)
+      console.log(transcript.length)
+
       setNote(transcript)
       mic.onerror = event => {
         console.log(event.error)
       }
+      
     }
   }
 
+  const filterDifficultWords = () => {
+   
+  }
+  
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note])
     setNote('')
+    console.log(savedNotes)
+    
+    // console.log(setSavedNotes)
+
+    // console.log("WORKING?", noteTopic)
+    // let topic = {
+    //   [noteTopic]: savedNotes
+    // }
+
+    // console.log("noteArray is!", noteArray)
+    localStorage.setItem('myNotes', JSON.stringify(savedNotes));
+    // localStorage.setItem('testingNotes', JSON.stringify(topic));
+    // localStorage.setItem("notes", savedNotes)
+  }
+
+  const submitHandler = (event) => {
+    let noteTopic = JSON.parse(localStorage.getItem('topic'))
+
+    event.preventDefault();
+    if (noteTopic.trim() === "" ){
+      setErrorMessage("Topic required")
+      return;
+    }
+    setErrorMessage(null)
+    //  console.log("Login button clicked")
+    const requestConfig = {
+      headers: {
+        "x-api-key": "LnKX8HRBva7IQRRTzRs4322HPUjjaVlM5gTJW7gj"
+      }
+    }
+  
+    const requestBody = {
+      id: id,
+      topic: noteTopic,
+      notes: savedNotes
+    }
+    axios.post(notesUrl, requestBody, requestConfig).then((response) => {
+      // set user session, get user item + token from response body
+      setNotes(response.data.notes);
+
+    }).catch((error) => {
+      // if username or password is incorrect
+      if (error.response.status === 401 || error.response.status === 403 ){
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Backend server is not responding. Please try again later.");
+      }
+    })
   }
 
 
@@ -167,16 +267,21 @@ const Main = () => {
 
 
   return (
-  
+    
     <div className = {classes.root}>
       <div className = {classes.splitScreen}>
         <div className={classes.leftPane}>
           
             <h1>Hi <span className = {classes.name}>{name}!
             <br></br>
-            <p className = {classes.p}>Start teaching yourself!</p>
+            <p className = {classes.p}>Start teaching yourself! </p> 
             </span></h1>
-            <input className = {classes.mainInput} placeholder="Topic/Concept" type="text"  /><input className = {classes.mainButton} type="submit" value="Continue" /> <br/>
+            <div className = {classes.buttonBox}>
+              <input className = {classes.mainInput} placeholder="Topic/Concept" type="text" onChange={(e)=>handleChange(e)}/>
+              <input className = {classes.mainButton} type="submit" value="Continue" onClick={submitHandler}/>
+              {errorMessage && <p className="message">{errorMessage}</p>}
+              <br/>
+            </div>
 
             <video ref={videoRef} className="container"></video>
            
@@ -193,6 +298,7 @@ const Main = () => {
             Start/Stop
           </button>
           <p className={classes.boxNote}>{note}</p>
+
         </div>
         <h2>Notes</h2>
 
@@ -201,13 +307,17 @@ const Main = () => {
               <p className={classes.boxNote} key={n}>{n}</p>
             ))}
             </div>
-      
         </div>
         </div>
-           
+        <p >"Word" , {wordCounter}</p> <br/><br/>
+          <p >"Character",{  characterCounter}</p> <br/><br/>
+          <p >"Sentence", { sentenceCounter}</p><br/><br/>
+          {/* <p >"text", { testing }</p><br/><br/> */}
       </div>
+    
       
     </div>
+
    
     
   )

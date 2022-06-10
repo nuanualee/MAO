@@ -23,21 +23,21 @@ function verifyToken(username, token){
         if (error) {
             return{
                 verified: false,
-                message: "invalid token"
+                message: "Invalid token"
             }
         }
         // username not equals to intended useranem, return verify = false
-        if (response.username !== username){
+        if (response.username !== username) {
             return{
                 verified: false,
-                message: "invalid user"
+                message: "Invalid user"
             }
         }
 
         // if successful
         return{
             verified: true,
-            message: "verified"
+            message: "Verified"
         }
     });
 }

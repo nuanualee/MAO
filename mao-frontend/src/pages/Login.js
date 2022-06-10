@@ -75,40 +75,40 @@ const Login = (props) => {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
- // error to show user 
- const [errorMessage, setErrorMessage] = useState(null)
+  // error to show user 
+  const [errorMessage, setErrorMessage] = useState(null)
 
- const submitHandler = (event) => {
-   event.preventDefault();
-   if (username.trim() === "" || password.trim() === ""){
-     setErrorMessage("Both username and password are required")
-     return;
-   }
-   setErrorMessage(null)
-  //  console.log("Login button clicked")
-  const requestConfig = {
-    headers: {
-      "x-api-key": "LnKX8HRBva7IQRRTzRs4322HPUjjaVlM5gTJW7gj"
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (username.trim() === "" || password.trim() === ""){
+      setErrorMessage("Both username and password are required")
+      return;
     }
-  }
-  const requestBody = {
-    username: username,
-    password: password
-  }
-  axios.post(loginUrl, requestBody, requestConfig).then((response) => {
-    // set user session, get user item + token from response body
-    setUserSession(response.data.user, response.data.token);
-    // direct user to main page
-    navigate("/main");
-  }).catch((error) => {
-    // if username or password is incorrect
-    if (error.response.status === 401 || error.response.status === 403 ){
-      setErrorMessage(error.response.data.message);
-    } else {
-      setErrorMessage("Backend server is not responding. Please try again later.");
+    setErrorMessage(null)
+    //  console.log("Login button clicked")
+    const requestConfig = {
+      headers: {
+        "x-api-key": "LnKX8HRBva7IQRRTzRs4322HPUjjaVlM5gTJW7gj"
+      }
     }
-  })
- }
+    const requestBody = {
+      username: username,
+      password: password
+    }
+    axios.post(loginUrl, requestBody, requestConfig).then((response) => {
+      // set user session, get user item + token from response body
+      setUserSession(response.data.user, response.data.token);
+      // direct user to main page
+      navigate("/main");
+    }).catch((error) => {
+      // if username or password is incorrect
+      if (error.response.status === 401 || error.response.status === 403 ){
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage("Backend server is not responding. Please try again later.");
+      }
+    })
+  }
 
   return (
     <div className = {classes.root}>

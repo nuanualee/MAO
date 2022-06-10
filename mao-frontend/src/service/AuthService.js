@@ -24,6 +24,10 @@ module.exports = {
         sessionStorage.setItem("token", token);
     },
 
+    setNotes: function(notes){
+        sessionStorage.setItem("notes", JSON.parse(notes));
+    },
+
     resetUserSession: function(){
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("token");

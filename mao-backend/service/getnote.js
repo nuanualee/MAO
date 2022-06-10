@@ -17,11 +17,6 @@ async function login(user) {
     // extract username
     const username = user.username;
     const password = user.password;
-    if (!user || !username || !password) {
-      return util.buildResponse(401, {
-        message: 'Username and password are required'
-      })
-    }
 
     // getting username from database
     const dynamoUser = await getUser(username.toLowerCase().trim());
@@ -30,23 +25,7 @@ async function login(user) {
       return util.buildResponse(403, { message: 'User does not exist'});
     }
 
-    // compare using bcrypted password with user's password from database
-    if (!bcrypt.compareSync(password, dynamoUser.password)) {
-      return util.buildResponse(403, { message: 'Password is incorrect'});
-    }
-
-    // if username and password matches
-    const userInfo = {
-      username: dynamoUser.username,
-      name: dynamoUser.name,
-      id: dynamoUser.id
-    }
-    const token = auth.generateToken(userInfo)
-    const response = {
-      user: userInfo,
-      token: token
-    }
-    return util.buildResponse(200, response);
+    return util.buildResponse(200, {nice: "nice"});
   }
   
   async function getUser(username) {
@@ -65,4 +44,4 @@ async function login(user) {
     })
   }
   
-  module.exports.login = login;
+  module.exports.getnote = login;

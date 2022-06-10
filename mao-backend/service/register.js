@@ -16,7 +16,6 @@ async function register(userInfo) {
     const email = userInfo.email;
     const username = userInfo.username;
     const password = userInfo.password;
-
     // if fields are empty
     if (!username || !name || !email || !password) {
       return util.buildResponse(401, {
@@ -29,7 +28,7 @@ async function register(userInfo) {
 
     if (dynamoUser && dynamoUser.username) {
       return util.buildResponse(401, {
-        message: 'username already exists in our database. please choose a different username'
+        message: 'Username already exists in our database. please choose a different username'
       })
     }
     
@@ -60,8 +59,7 @@ async function register(userInfo) {
       TableName: userTable,
       Key: {
         // usernaem is primary key
-        username: username,
-        
+        username: username
       }
     }
   
@@ -82,6 +80,6 @@ async function register(userInfo) {
     }, error => {
       console.error('There is an error saving user: ', error)
     });
-  }
+}
   
   module.exports.register = register;

@@ -5,6 +5,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Main from "./pages/Main"
+import MyNotes from "./pages/MyNotes"
 import { getUser, getToken, setUserSession, resetUserSession } from "./service/AuthService";
 import axios from "axios"
 // import PublicRoute from "./routes/PublicRoute"
@@ -65,6 +66,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/main" element={<Main/>} />
+        <Route path="/mynotes" element={<MyNotes/>} />
 
       </Routes>
 

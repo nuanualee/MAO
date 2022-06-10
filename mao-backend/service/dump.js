@@ -1,37 +1,49 @@
-const jwt = require('jsonwebtoken');
+const AWS = require("aws-sdk");
+AWS.config.update({
+    // update region'
+    region: "ap-southeast-1"
+})
 
-function generateToken(userInfo) {
-  if (!userInfo) {
-    return null;
+// declare no sql db client
+const util = require("../utils/util");
+
+const dynamodb= new AWS.DynamoDB.DocumentClient();
+const noteTable = "mao-notes";
+
+async function notes(notesInfo) {
+  const id = notesInfo.id;
+  const topic = notesInfo.topic;
+  const notes = notesInfo.notes;
+ 
+  
+  const note = {
+    id: id,
+    topic: topic,
+    notes: notes,
   }
 
-  return jwt.sign(userInfo, process.env.JWT_SECRET, {
-    expiresIn: '1h'
-  })
+  // save to database
+  const saveNoteResponse = await saveNote(note);
+  if (!saveNoteResponse) {
+    return util.buildResponse(503, { message: 'Server Error. Please try again later.'});
+  }
+
+  
+
+  // successful register user
+  return util.buildResponse(200, { id: id });
 }
 
-function verifyToken(username, token) {
-  return jwt.verify(token, process.env.JWT_SECRET, (error, response) => {
-    if (error) {
-      return {
-        verified: false,
-        message: 'invalid token'
-      }
-    }
-
-    if (response.username !== username) {
-      return {
-        verified: false,
-        message: 'invalid user'
-      }
-    }
-
-    return {
-      verified: true,
-      message: 'verifed'
-    }
-  })
+async function saveNote(note) {
+  const params = {
+    TableName: noteTable,
+    Item: note
+  }
+  return await dynamodb.put(params).promise().then(() => {
+    return true;
+  }, error => {
+    console.error('There is an error saving notes: ', error)
+  });
 }
 
-module.exports.generateToken = generateToken;
-module.exports.verifyToken = verifyToken;
+module.exports.notes = notes;
