@@ -1,7 +1,8 @@
 import React, {useRef,useEffect,useState} from 'react'
 import { getUser, getToken, getID, setNotes } from "../service/AuthService"
 import { makeStyles } from "@material-ui/core/styles";
-import testing from '../assets/DaleChallEasyWordList.js';
+import { testing }from "../assets/DaleChallEasyWordList.js";
+import {daleChallFormula, daleChallGradeLevel} from "../assets/DaleChallFormula.js";
 
 import axios from "axios";
 const notesUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/notes"
@@ -110,10 +111,12 @@ const Main = () => {
   const [characterCounter, setCharacterCounter] = useState(0)
   const [sentenceCounter, setSentenceCounter] = useState(0)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [difficultWord, setDifficultWord] = useState(null)
+  const [difficultWord, setDifficultWord] = useState(0)
+  const [daleChall, setDaleChall] = useState("Undefined")
 
   const handleChange = (e) => {
     setState({value: e.target.value})
+
 
     console.log(e.target.value)
     localStorage.setItem('topic', JSON.stringify(e.target.value));
@@ -128,7 +131,7 @@ const Main = () => {
   const user = getUser();
   const token = getToken();
   const id = getID();
-  console.log("ID is",id);
+  // console.log("ID is",id);
 //   get username from user object, check if undefined or not
   const name = user !== "undefined" && user ? user.name : "";
   
@@ -181,6 +184,10 @@ const Main = () => {
         .map(result => result[0])
         .map(result => result.transcript)
         .join('')
+
+      
+      // }
+  
         
       console.log(transcript)
       // wordCounter = transcript.split(" ").length
@@ -194,9 +201,43 @@ const Main = () => {
       setWordCounter(transcript.split(" ").length)
       setCharacterCounter(transcript.length)
       setSentenceCounter(transcript.split(".").length)
-      console.log(wordCounter)
-      console.log(transcript.length)
 
+      const string = transcript;
+      const usingSplit = string.split(' ');
+      console.log(usingSplit)
+      var arrayLength = usingSplit.length;
+      for (var i = 0; i < arrayLength; i++) {
+          console.log(usingSplit[i]);
+    //Do something
+      }
+
+      const difficultWords = usingSplit.filter(x => !testing.includes(x))
+
+
+      console.log( "Number of difficult words" + difficultWords.length )
+      setDifficultWord(difficultWords.length)
+      // console.log("filter??" + filterWords(transcript))
+
+      setDaleChall(daleChallGradeLevel(daleChallFormula({word: transcript.split(" ").length, sentence: transcript.split(".").length, difficultWord: difficultWords.length})))
+      console.log(daleChallGradeLevel(daleChallFormula({word: transcript.split(" ").length, sentence: transcript.split(".").length, difficultWord: difficultWords.length})))
+     
+      // const results = testing.map((item) => {
+      //   // return me values that appear inside my easy words
+      //   return transcript.toLowerCase().includes(item.toLowerCase());
+      // });
+    
+      // console.log(results);
+
+      // const count1 = results.filter(value => value === true).length;
+      // console.log("Number of true values", count1);
+      
+
+
+     
+    
+      // console.log(wordCounter)
+      // console.log(transcript.length)
+      
       setNote(transcript)
       mic.onerror = event => {
         console.log(event.error)
@@ -205,15 +246,16 @@ const Main = () => {
     }
   }
 
-  const filterDifficultWords = () => {
-   
-  }
+  // const filterWords = (str) => {
+  //   return testing.some(word => str.includes(word));
+  // }
   
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note])
     setNote('')
     console.log(savedNotes)
-    
+
+     
     // console.log(setSavedNotes)
 
     // console.log("WORKING?", noteTopic)
@@ -309,10 +351,12 @@ const Main = () => {
             </div>
         </div>
         </div>
-        <p >"Word" , {wordCounter}</p> <br/><br/>
+       <p>{daleChall}</p>
+        {/* <p >"Word" , {wordCounter}</p> <br/><br/>
           <p >"Character",{  characterCounter}</p> <br/><br/>
           <p >"Sentence", { sentenceCounter}</p><br/><br/>
-          {/* <p >"text", { testing }</p><br/><br/> */}
+          <p >"Sentence", { difficultWord}</p><br/><br/> */}
+
       </div>
     
       
