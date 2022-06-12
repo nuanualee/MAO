@@ -14,14 +14,13 @@ const notesUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/pr
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "80px",
+    minHeight: '100vh',
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "95vh",
+    height: "100vh",
     textAlign: "center",
-    fontFamily: "Nunito",
-    overflow: "scroll"
+    fontFamily: "Nunito"
   },
   name: {
     display: "inline",
@@ -78,18 +77,24 @@ const useStyles = makeStyles((theme) => ({
       overflow: "scroll"
     },
     belowBox:{
-      height: "350px",
-      overflow: "scroll"
+      height: "220px",
+      overflowY: "auto"
     },
     boxNote:{
       height:"100px",
       overflow: "scroll"
+    },
+    belowBoxNote:{
+      height:"auto",
     },
     buttonBox:{
       marginBottom: "15px"
     },
     message:{
       marginBottom: "-25px"
+    },
+    col: {
+      marginTop: "90px"
     }
 }));
 
@@ -317,7 +322,7 @@ const Main = () => {
     <div className = {classes.root}>
       <Container>
       <Row>
-        <Col>
+        <Col className={classes.col}>
                 <h1>Hi <span className = {classes.name}>{name}!
                 <br></br>
                 <p className = {classes.p}>Start teaching yourself! </p> 
@@ -331,7 +336,7 @@ const Main = () => {
 
                 <video ref={videoRef} className="container"></video>
         </Col>
-        <Col>
+        <Col className={classes.col}>
             <div className={classes.container}>
             <div className={classes.box}>
               <h2>Current Note</h2>
@@ -349,12 +354,12 @@ const Main = () => {
 
             <div className={classes.belowBox}>
                 {savedNotes.map(n => (
-                  <p className={classes.boxNote} key={n}>{n}</p>
+                  <p className={classes.belowBoxNote} key={n}>{n}</p>
                 ))}
                 </div>
             </div>
           </Col>
-          <Col xs lg="2">
+          <Col xs lg="2" className={classes.col}>
             <Table responsive>
               <thead>
                 <tr>
