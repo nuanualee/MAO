@@ -3,6 +3,11 @@ import { getUser, getToken, getID, setNotes } from "../service/AuthService"
 import { makeStyles } from "@material-ui/core/styles";
 import { testing }from "../assets/DaleChallEasyWordList.js";
 import {daleChallFormula, daleChallGradeLevel} from "../assets/DaleChallFormula.js";
+import Table from "react-bootstrap/Table"
+import Col from "react-bootstrap/Col"
+import Row from "react-bootstrap/Row"
+import Container from "react-bootstrap/Container"
+
 
 import axios from "axios";
 const notesUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/notes"
@@ -112,7 +117,7 @@ const Main = () => {
   const [sentenceCounter, setSentenceCounter] = useState(0)
   const [errorMessage, setErrorMessage] = useState(null)
   const [difficultWord, setDifficultWord] = useState(0)
-  const [daleChall, setDaleChall] = useState("Undefined")
+  const [daleChall, setDaleChall] = useState("N/A")
 
   const handleChange = (e) => {
     setState({value: e.target.value})
@@ -200,7 +205,7 @@ const Main = () => {
       // )}
       setWordCounter(transcript.split(" ").length)
       setCharacterCounter(transcript.length)
-      setSentenceCounter(transcript.split(".").length)
+      setSentenceCounter(transcript.split(".").length - 1)
 
       const string = transcript;
       const usingSplit = string.split(' ');
@@ -218,7 +223,10 @@ const Main = () => {
       setDifficultWord(difficultWords.length)
       // console.log("filter??" + filterWords(transcript))
 
-      setDaleChall(daleChallGradeLevel(daleChallFormula({word: transcript.split(" ").length, sentence: transcript.split(".").length, difficultWord: difficultWords.length})))
+      if (transcript.split(".").length > 2) {
+        console.log("Sentence is more than 2")
+        setDaleChall(daleChallGradeLevel(daleChallFormula({word: transcript.split(" ").length, sentence: transcript.split(".").length, difficultWord: difficultWords.length})))
+      }
       console.log(daleChallGradeLevel(daleChallFormula({word: transcript.split(" ").length, sentence: transcript.split(".").length, difficultWord: difficultWords.length})))
      
       // const results = testing.map((item) => {
@@ -230,10 +238,6 @@ const Main = () => {
 
       // const count1 = results.filter(value => value === true).length;
       // console.log("Number of true values", count1);
-      
-
-
-     
     
       // console.log(wordCounter)
       // console.log(transcript.length)
@@ -311,54 +315,77 @@ const Main = () => {
   return (
     
     <div className = {classes.root}>
-      <div className = {classes.splitScreen}>
-        <div className={classes.leftPane}>
+      <Container>
+      <Row>
+        <Col>
+                <h1>Hi <span className = {classes.name}>{name}!
+                <br></br>
+                <p className = {classes.p}>Start teaching yourself! </p> 
+                </span></h1>
+                <div className = {classes.buttonBox}>
+                  <input className = {classes.mainInput} placeholder="Topic/Concept" type="text" onChange={(e)=>handleChange(e)}/>
+                  <input className = {classes.mainButton} type="submit" value="Continue" onClick={submitHandler}/>
+                  {errorMessage && <p className="message">{errorMessage}</p>}
+                  <br/>
+                </div>
+
+                <video ref={videoRef} className="container"></video>
+        </Col>
+        <Col>
+            <div className={classes.container}>
+            <div className={classes.box}>
+              <h2>Current Note</h2>
+              {isListening ? <span>🛑🎙️</span> : <span>🎙️</span>}
+              <button onClick={handleSaveNote} disabled={!note}>
+                Save Note
+              </button>
+              <button onClick={() => setIsListening(prevState => !prevState)}>
+                Start/Stop
+              </button>
+              <p className={classes.boxNote}>{note}</p>
+
+            </div>
+            <h2>Notes</h2>
+
+            <div className={classes.belowBox}>
+                {savedNotes.map(n => (
+                  <p className={classes.boxNote} key={n}>{n}</p>
+                ))}
+                </div>
+            </div>
+          </Col>
+          <Col xs lg="2">
+            <Table responsive>
+              <thead>
+                <tr>
+                  <th>Details</th>
+                  <th>Stats</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Words</td>
+                  <td>{wordCounter}</td>
+                </tr>
+                <tr>
+                  <td>Characters</td>
+                  <td>{characterCounter}</td>
+                </tr>
+                <tr>
+                  <td>Sentences</td>
+                  <td>{sentenceCounter}</td>
+                </tr>
+                <tr>
+                  <td>Reading Level</td>
+                  <td>{daleChall}</td>
+                </tr>
+              </tbody>
+            </Table>
+        
+        </Col>
+      </Row>
+    </Container>
           
-            <h1>Hi <span className = {classes.name}>{name}!
-            <br></br>
-            <p className = {classes.p}>Start teaching yourself! </p> 
-            </span></h1>
-            <div className = {classes.buttonBox}>
-              <input className = {classes.mainInput} placeholder="Topic/Concept" type="text" onChange={(e)=>handleChange(e)}/>
-              <input className = {classes.mainButton} type="submit" value="Continue" onClick={submitHandler}/>
-              {errorMessage && <p className="message">{errorMessage}</p>}
-              <br/>
-            </div>
-
-            <video ref={videoRef} className="container"></video>
-           
-        </div>
-        <div className={classes.rightPane}>
-      <div className={classes.container}>
-        <div className={classes.box}>
-          <h2>Current Note</h2>
-          {isListening ? <span>🛑🎙️</span> : <span>🎙️</span>}
-          <button onClick={handleSaveNote} disabled={!note}>
-            Save Note
-          </button>
-          <button onClick={() => setIsListening(prevState => !prevState)}>
-            Start/Stop
-          </button>
-          <p className={classes.boxNote}>{note}</p>
-
-        </div>
-        <h2>Notes</h2>
-
-        <div className={classes.belowBox}>
-            {savedNotes.map(n => (
-              <p className={classes.boxNote} key={n}>{n}</p>
-            ))}
-            </div>
-        </div>
-        </div>
-       <p>{daleChall}</p>
-        {/* <p >"Word" , {wordCounter}</p> <br/><br/>
-          <p >"Character",{  characterCounter}</p> <br/><br/>
-          <p >"Sentence", { sentenceCounter}</p><br/><br/>
-          <p >"Sentence", { difficultWord}</p><br/><br/> */}
-
-      </div>
-    
       
     </div>
 

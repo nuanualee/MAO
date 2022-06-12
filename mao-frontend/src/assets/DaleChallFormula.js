@@ -1,18 +1,18 @@
 var difficultWordWeight = 0.1579
 var wordWeight = 0.0496
-var difficultWordThreshold = 0.05
+var difficultWordThreshold = 0.30
 var percentage = 100
 var adjustment = 3.6365
 
 // Grade map associated with the scores.
 var gradeMap = {
-  4: [[0, 4], "Grades 4 and lower"],
-  5: [[5, 6], "Grades 5 and 6"],
-  6: [[7, 8], "Grades 7 and 8"],
-  7: [[9, 10], "Grades 9 and 10"],
-  8: [[11, 12], "Grades 11 and 12"],
-  9: [[13, 15], "Grades 13 and 15"],
-  10: [16, Number.POSITIVE_INFINITY],
+  4: [[0, 4], "< 4th Grade"],
+  5: [[5, 6], "5-6th Grade"],
+  6: [[7, 8], "7-8th Grade"],
+  7: [[9, 10], "9-10th Grade"],
+  8: [[11, 12], "11-12th Grade"],
+  9: [[13, 15], "College"],
+  10: [16, "College Graduate"],
   NaN: [Number.NaN, Number.NaN]
 }
 

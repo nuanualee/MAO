@@ -133,3 +133,33 @@ async function deleteNote(noteKey) {
 }
 
 
+
+
+//
+
+<Table responsive>
+<thead>
+  <tr>
+    <th>Details</th>
+    <th>Stats</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Words</td>
+    <td>{wordCounter}</td>
+  </tr>
+  <tr>
+    <td>Characters</td>
+    <td>{characterCounter}</td>
+  </tr>
+  <tr>
+    <td>Sentences</td>
+    <td>{sentenceCounter}</td>
+  </tr>
+  <tr>
+    <td>Reading Level</td>
+    <td>{daleChall}</td>
+  </tr>
+</tbody>
+</Table>
