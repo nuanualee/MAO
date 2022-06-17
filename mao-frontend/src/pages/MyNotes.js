@@ -147,7 +147,7 @@ const MyNotes = () => {
 
   return (
     <div className={classes.root}>
-      { topic ? "'Start' recording your notes for it to show here!" : 
+       
         <><Grid container spacing={2}>
           <Grid item xs={12}>
             <h2>Topic: {clickedTopic}</h2>
@@ -184,7 +184,7 @@ const MyNotes = () => {
             >
               {topicNotes.map((value, index) => (
                 <StyledPaper sx={{ my: 1, mx: "auto", p: 2 }}>
-                  <Grid container wrap="nowrap" spacing={2}>
+                  <Grid container spacing={2}>
                     <Grid item>
                       <Avatar
                         style={{
@@ -227,7 +227,7 @@ const MyNotes = () => {
         </Grid>
 
         <div></div> 
-      </> }
+      </> 
       
 
       {/* {groupedByTopic[1].map((value) => {
