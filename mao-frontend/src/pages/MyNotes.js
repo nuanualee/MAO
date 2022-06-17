@@ -45,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     fontFamily: "Nunito",
   },
+  text: {
+    color: "grey"
+  }
 }));
 
 const MyNotes = () => {
@@ -196,6 +199,8 @@ const MyNotes = () => {
                     </Grid>
                     <Grid item xs>
                       <Typography>{value.note}</Typography>
+                      <br/>
+                      <p className={classes.text}>{value.date}</p>
                     </Grid>
                   </Grid>
                 </StyledPaper>
