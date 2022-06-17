@@ -7,10 +7,14 @@ import Table from "react-bootstrap/Table"
 import Col from "react-bootstrap/Col"
 import Row from "react-bootstrap/Row"
 import Container from "react-bootstrap/Container"
+import moment from "moment";
 
 
 import axios from "axios";
-const notesUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/notes"
+const notesUrl = "http://localhost:3001/"
+const idUrl = "http://localhost:3001/id"
+// serialize payload to db
+const qs = require("qs");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -95,6 +99,9 @@ const useStyles = makeStyles((theme) => ({
     },
     col: {
       marginTop: "90px"
+    },
+    statsCol: {
+      marginTop: "200px"
     }
 }));
 
@@ -107,12 +114,14 @@ mic.interimResults = true
 mic.lang = 'en-US'
 
 
+
 const Main = () => {
   const classes = useStyles();
   const [state, setState] = useState({
     value: "",
     show: ""
   });
+  
   const [isListening, setIsListening] = useState(false)
   const [recording, isRecording] = useState(false)
   const [note, setNote] = useState(null)
@@ -132,6 +141,25 @@ const Main = () => {
     localStorage.setItem('topic', JSON.stringify(e.target.value));
   }
 
+  const loadID = () => {
+  
+    const requestBody = {
+      id: id,
+    }  
+    // alert(JSON.stringify(requestBody))
+    axios.post(idUrl, 
+    qs.stringify( requestBody )).then((response) => {
+    })
+    console.log("HIIIII", id)
+
+    // alert("ID loaded~")
+  }
+
+  useEffect(() => { 
+    loadID()
+    // console.log("logging this here", id)
+  }, [] )
+
   // const submit = () => {
   //   setState({show: state.value})
   // } 
@@ -144,7 +172,10 @@ const Main = () => {
   // console.log("ID is",id);
 //   get username from user object, check if undefined or not
   const name = user !== "undefined" && user ? user.name : "";
+  var date = moment().format("DD-MM-YYYY HH:mm:ss")
   
+  
+
   let videoRef = useRef(null);
   const getVideo = () => {
     navigator.mediaDevices
@@ -200,8 +231,8 @@ const Main = () => {
   
         
       console.log(transcript)
+     
       // wordCounter = transcript.split(" ").length
-
 
       // {wordCounter == 0 ? (
       //   setWordCounter(transcript.split(" ").length)
@@ -222,6 +253,7 @@ const Main = () => {
       }
 
       const difficultWords = usingSplit.filter(x => !testing.includes(x))
+      console.log("Date", date)
 
 
       console.log( "Number of difficult words" + difficultWords.length )
@@ -262,9 +294,11 @@ const Main = () => {
   const handleSaveNote = () => {
     setSavedNotes([...savedNotes, note])
     setNote('')
+    setWordCounter(0)
+    setCharacterCounter(0)
+    setSentenceCounter(0)
+    setDaleChall("N/A")
     console.log(savedNotes)
-
-     
     // console.log(setSavedNotes)
 
     // console.log("WORKING?", noteTopic)
@@ -274,50 +308,32 @@ const Main = () => {
 
     // console.log("noteArray is!", noteArray)
     localStorage.setItem('myNotes', JSON.stringify(savedNotes));
-    // localStorage.setItem('testingNotes', JSON.stringify(topic));
+    // localStorage.setItem('topic', JSON.stringify(topic));
     // localStorage.setItem("notes", savedNotes)
   }
 
-  const submitHandler = (event) => {
-    let noteTopic = JSON.parse(localStorage.getItem('topic'))
-
-    event.preventDefault();
-    if (noteTopic.trim() === "" ){
-      setErrorMessage("Topic required")
-      return;
+  const submitNotes = () => {
+    // loadID()
+    for (var i in savedNotes) {
+      const requestBody = {
+        user_id: id,
+        note: savedNotes[i], 
+        topic:  JSON.parse(localStorage.getItem('topic')), 
+        date: date,
+      }  
+      // alert(JSON.stringify(requestBody))
+      axios.post(notesUrl, 
+      qs.stringify( requestBody )).then((response) => {
+      })
     }
-    setErrorMessage(null)
-    //  console.log("Login button clicked")
-    const requestConfig = {
-      headers: {
-        "x-api-key": "LnKX8HRBva7IQRRTzRs4322HPUjjaVlM5gTJW7gj"
-      }
-    }
+      alert("Sucessful posting!")
   
-    const requestBody = {
-      id: id,
-      topic: noteTopic,
-      notes: savedNotes
-    }
-    axios.post(notesUrl, requestBody, requestConfig).then((response) => {
-      // set user session, get user item + token from response body
-      setNotes(response.data.notes);
-
-    }).catch((error) => {
-      // if username or password is incorrect
-      if (error.response.status === 401 || error.response.status === 403 ){
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage("Backend server is not responding. Please try again later.");
-      }
-    })
   }
-
-
 
 
 
   return (
+
     
     <div className = {classes.root}>
       <Container>
@@ -329,7 +345,7 @@ const Main = () => {
                 </span></h1>
                 <div className = {classes.buttonBox}>
                   <input className = {classes.mainInput} placeholder="Topic/Concept" type="text" onChange={(e)=>handleChange(e)}/>
-                  <input className = {classes.mainButton} type="submit" value="Continue" onClick={submitHandler}/>
+                  <input className = {classes.mainButton} type="submit" value="Continue" onClick={submitNotes}/>
                   {errorMessage && <p className="message">{errorMessage}</p>}
                   <br/>
                 </div>
@@ -359,7 +375,7 @@ const Main = () => {
                 </div>
             </div>
           </Col>
-          <Col xs lg="2" className={classes.col}>
+          <Col xs lg="2" className={classes.statsCol} >
             <Table responsive>
               <thead>
                 <tr>

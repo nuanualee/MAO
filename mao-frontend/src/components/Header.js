@@ -52,7 +52,7 @@ function Header() {
       collapsedHeight = {40}
       >
         <div className={classes.container}>
-            <h1 className={classes.normalText}>Start connecting with <br />
+            <h1 className={classes.normalText}>Start learning with <br />
             <span className={classes.colorText}>MAO!</span></h1>
             
 

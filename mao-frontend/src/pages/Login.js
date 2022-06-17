@@ -4,8 +4,13 @@ import axios from "axios";
 import { setUserSession } from "../service/AuthService"
 import { useNavigate } from 'react-router-dom';
 import { borderRadius } from '@mui/system';
+import {getID } from "../service/AuthService"
 
 const loginUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/login"
+const idUrl = "http://localhost:3001/id"
+// serialize payload to db
+const qs = require("qs");
+const id = getID();
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 
 
   }));
+  
 
 const Login = (props) => {
   const classes = useStyles();
@@ -78,6 +84,7 @@ const Login = (props) => {
   // error to show user 
   const [errorMessage, setErrorMessage] = useState(null)
 
+  
   const submitHandler = (event) => {
     event.preventDefault();
     if (username.trim() === "" || password.trim() === ""){
@@ -109,6 +116,8 @@ const Login = (props) => {
       }
     })
   }
+
+ 
 
   return (
     <div className = {classes.root}>
