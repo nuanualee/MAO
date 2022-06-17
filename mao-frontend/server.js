@@ -35,6 +35,10 @@ app.get("/notes", (req, res) => {
 	res.json("OK Get Notes")
 })
 
+app.get("/delete", (req, res) => {
+	res.json("OK Delete")
+})
+
 app.post("/", (req, res) => {
 
 	var user_id = req.body.user_id;
@@ -70,6 +74,20 @@ app.post("/notes", (req, res) => {
 	// create sql statement
 	const sqlInsert = "SELECT * FROM notes WHERE user_id = ? ;"
 	db.query(sqlInsert, [user_id], (err, result) => {
+			console.log(result)
+			// alert(result)
+			res.send(result)
+	}) 
+	
+})
+
+app.delete("/delete/:topic", (req, res) => {
+
+	var topic = req.params.topic;
+
+	// create sql statement
+	const sqlInsert = "DELETE FROM notes WHERE topic = ?;" 
+	db.query(sqlInsert, topic, (err, result) => {
 			console.log(result)
 			// alert(result)
 			res.send(result)
