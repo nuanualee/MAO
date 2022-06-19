@@ -1,9 +1,13 @@
+// ALL INSIDE EC2 INSTANCE 
+// http://ec2-3-1-211-128.ap-southeast-1.compute.amazonaws.com:3001/
+
 const express = require("express")
 const app = express()
 const bodyParser = require("body-parser")
 const http = require("http")
 const mysql = require("mysql")
 const cors = require("cors")
+const PORT = process.env.PORT || 3001
 
 // create db and connection 
 const db = mysql.createConnection({
@@ -95,32 +99,4 @@ app.delete("/delete/:topic", (req, res) => {
 	
 })
 
-app.listen(3001, () => {
-	console.log("running on port 3001")
-})
-
-// const server = http.createServer(app)
-// const io = require("socket.io")(server, {
-// 	cors: {
-// 		origin: "http://localhost:3000",
-// 		methods: [ "GET", "POST" ]
-// 	}
-// })
-
-// io.on("connection", (socket) => {
-// 	socket.emit("me", socket.id)
-
-// 	socket.on("disconnect", () => {
-// 		socket.broadcast.emit("callEnded")
-// 	})
-
-// 	socket.on("callUser", (data) => {
-// 		io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
-// 	})
-
-// 	socket.on("answerCall", (data) => {
-// 		io.to(data.to).emit("callAccepted", data.signal)
-// 	})
-// })
-
-// server.listen(5000, () => console.log("server is running on port 5000"))
+app.listen(PORT, () => console.log(`Server listening in port ${PORT}`))

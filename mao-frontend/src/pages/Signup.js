@@ -35,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "10px"
     },
     loginDesc: {
-      fontSize: "24px"
+      fontSize: "24px",
     },
     loginBox: {
+      marginLeft: "30px",
       height: "300px",
       padding: "20px",
       backgroundColor: "white",
@@ -123,7 +124,7 @@ const Signup = () => {
             <div className = {classes.loginWrapper}>
               <div className = {classes.login}>
                 <h1 className ={classes.loginLogo}>MAO</h1>
-                <span className ={classes.loginDesc}>Connect with people with MAO.</span>
+                <span className ={classes.loginDesc}>Sign Up.</span>
               </div>
 
               <div className = {classes.login}>

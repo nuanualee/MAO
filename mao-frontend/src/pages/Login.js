@@ -7,7 +7,7 @@ import { borderRadius } from '@mui/system';
 import {getID } from "../service/AuthService"
 
 const loginUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/login"
-const idUrl = "http://localhost:3001/id"
+const idUrl = "https://teammao.com/id"
 // serialize payload to db
 const qs = require("qs");
 const id = getID();
@@ -42,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: "10px"
     },
     loginDesc: {
-      fontSize: "24px"
+      fontSize: "24px",
     },
     loginBox: {
+      marginLeft: "30px",
       height: "300px",
       padding: "20px",
       backgroundColor: "#fff",
@@ -127,7 +128,7 @@ const Login = (props) => {
             <div className = {classes.loginWrapper}>
               <div className = {classes.login}>
                 <h1 className ={classes.loginLogo}>MAO</h1>
-                <span className ={classes.loginDesc}>Connect with people with MAO.</span>
+                <span className ={classes.loginDesc}>Login.</span>
               </div>
 
               <div className = {classes.login}>

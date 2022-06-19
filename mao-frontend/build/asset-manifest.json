@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.97f263ba.css",
+    "main.js": "/static/js/main.18f15865.js",
+    "static/media/mao.png": "/static/media/mao.3cf2085d42a93e39d3d4.png",
+    "static/media/sleep.png": "/static/media/sleep.486a506138814cdc4b9c.png",
+    "static/media/paw.png": "/static/media/paw.c6e43ca339feafe370a6.png",
+    "index.html": "/index.html",
+    "main.97f263ba.css.map": "/static/css/main.97f263ba.css.map",
+    "main.18f15865.js.map": "/static/js/main.18f15865.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97f263ba.css",
+    "static/js/main.18f15865.js"
+  ]
+}

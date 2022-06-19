@@ -11,8 +11,8 @@ import moment from "moment";
 
 
 import axios from "axios";
-const notesUrl = "http://localhost:3001/"
-const idUrl = "http://localhost:3001/id"
+const notesUrl = "https://teammao.com/"
+const idUrl = "https://teammao.com/id"
 // serialize payload to db
 const qs = require("qs");
 
@@ -175,9 +175,9 @@ const Main = () => {
   var date = moment().format("DD-MM-YYYY HH:mm:ss")
   
   
-
   let videoRef = useRef(null);
   const getVideo = () => {
+    
     navigator.mediaDevices
       .getUserMedia({
 
@@ -192,6 +192,7 @@ const Main = () => {
         console.error(err);
       });
   };
+  
   
   useEffect(() => {
     getVideo();

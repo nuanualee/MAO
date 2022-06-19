@@ -14,7 +14,7 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 
 import axios from "axios";
-const getNotesUrl = "http://localhost:3001/notes";
+const getNotesUrl = "https://teammao.com/notes";
 
 // serialize payload to db
 const qs = require("qs");
@@ -124,7 +124,7 @@ const MyNotes = () => {
     // })
     // axios({
     //   method: 'DELETE',
-    //   url: "http://localhost:3001/delete",
+    //   url: "https://teammao.com/delete",
     //   data: {
     //     topic: clickedTopic,
     //   }
@@ -139,7 +139,7 @@ const MyNotes = () => {
     //   axios.delete(deleteUrl, {data: qs.stringify( requestBody )}).then((response) => {
     //   })
 
-    axios.delete(`http://localhost:3001/delete/${clickedTopic}`, {
+    axios.delete(`https://teammao.com/delete/${clickedTopic}`, {
       data: { topic: clickedTopic },
     });
 
