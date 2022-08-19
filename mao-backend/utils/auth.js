@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-function generateToken(userInfo){
+function generateToken(userInfo, notesInfo){
     if (!userInfo){
         // if user is not defined, return null
         return null;
@@ -13,7 +13,7 @@ function generateToken(userInfo){
 
     // pass in secret for token + environment var in lambda function
     return jwt.sign(userInfo, process.env.JWT_SECRET,{
-        expiresIn: "1h"
+        expiresIn: "24h"
     });
 }
 

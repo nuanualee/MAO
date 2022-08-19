@@ -1,14 +1,14 @@
 const registerService = require('./service/register');
 const loginService = require('./service/login');
 const verifyService = require('./service/verify');
-const notesService = require('./service/notes');
+const pollyService = require('./service/handler');
 const util = require('./utils/util');
 
 const healthPath = '/health';
 const registerPath = '/register';
 const loginPath = '/login';
 const verifyPath = '/verify';
-const notesPath = '/notes'
+const pollyPath = '/polly';
 
 exports.handler = async (event) => {
     console.log('Request Event: ', event);
@@ -29,11 +29,11 @@ exports.handler = async (event) => {
             const verifyBody = JSON.parse(event.body);
             response = verifyService.verify(verifyBody);
             break;
-        case event.httpMethod === 'POST' && event.path === notesPath:
-            const noteBody = JSON.parse(event.body);
-            response = await notesService.notes(noteBody);
-            break;
-            
+        case event.httpMethod === 'POST' && event.path === pollyPath:
+            const pollyBody = JSON.parse(event.body);
+            response = pollyService.polly(pollyBody);
+            break;    
+
         default:
             response = util.buildResponse(404, '404 Not Found');
     }

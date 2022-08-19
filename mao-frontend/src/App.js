@@ -6,19 +6,19 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Main from "./pages/Main"
 import MyNotes from "./pages/MyNotes"
+import About from "./pages/About"
 import { getUser, getToken, setUserSession, resetUserSession } from "./service/AuthService";
 import axios from "axios"
 // import PublicRoute from "./routes/PublicRoute"
 // import PrivateRoute from "./routes/PrivateRoute"
 
 
-const verifyTokenAPIUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/verify"
-
 
 
 function App() {
 
   const [isAuthenticating, setAuthenticating] = useState(true);
+  const verifyTokenAPIUrl = "https://zex1cv7er9.execute-api.ap-southeast-1.amazonaws.com/prod/verify"
 
   useEffect(() => {
     // check if token exists
@@ -67,6 +67,7 @@ function App() {
         <Route path="/signup" element={<Signup/>} />
         <Route path="/main" element={<Main/>} />
         <Route path="/mynotes" element={<MyNotes/>} />
+        <Route path="/about" element={<About/>} />
 
       </Routes>
 

@@ -1,16 +1,24 @@
 {
-  "files": {
-    "main.css": "/static/css/main.97f263ba.css",
-    "main.js": "/static/js/main.18f15865.js",
-    "static/media/mao.png": "/static/media/mao.3cf2085d42a93e39d3d4.png",
-    "static/media/sleep.png": "/static/media/sleep.486a506138814cdc4b9c.png",
-    "static/media/paw.png": "/static/media/paw.c6e43ca339feafe370a6.png",
-    "index.html": "/index.html",
-    "main.97f263ba.css.map": "/static/css/main.97f263ba.css.map",
-    "main.18f15865.js.map": "/static/js/main.18f15865.js.map"
-  },
-  "entrypoints": [
-    "static/css/main.97f263ba.css",
-    "static/js/main.18f15865.js"
-  ]
+  "main.css": "/static/css/main.3b36767b.chunk.css",
+  "main.js": "/static/js/main.227ebdd7.chunk.js",
+  "main.js.map": "/static/js/main.227ebdd7.chunk.js.map",
+  "static/css/1.d90eedce.chunk.css": "/static/css/1.d90eedce.chunk.css",
+  "static/js/1.193d347f.chunk.js": "/static/js/1.193d347f.chunk.js",
+  "static/js/1.193d347f.chunk.js.map": "/static/js/1.193d347f.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.229c360f.js",
+  "runtime~main.js.map": "/static/js/runtime~main.229c360f.js.map",
+  "static/media/mao.png": "/static/media/mao.60f74ad8.png",
+  "static/media/sleep.png": "/static/media/sleep.658a1ce6.png",
+  "static/media/paw.png": "/static/media/paw.2eb86b9b.png",
+  "static/media/lineless.png": "/static/media/lineless.9e8021be.png",
+  "static/media/party.png": "/static/media/party.4a8c55d2.png",
+  "static/media/direction1.png": "/static/media/direction1.b4b90e05.png",
+  "static/media/direction3.png": "/static/media/direction3.36e2f04f.png",
+  "static/media/direction2.png": "/static/media/direction2.feee5405.png",
+  "static/media/direction4.png": "/static/media/direction4.faf6f525.png",
+  "static/css/main.3b36767b.chunk.css.map": "/static/css/main.3b36767b.chunk.css.map",
+  "static/css/1.d90eedce.chunk.css.map": "/static/css/1.d90eedce.chunk.css.map",
+  "index.html": "/index.html",
+  "precache-manifest.fba1a54866bff3c64234a94ac2f39a29.js": "/precache-manifest.fba1a54866bff3c64234a94ac2f39a29.js",
+  "service-worker.js": "/service-worker.js"
 }

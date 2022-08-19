@@ -58,7 +58,7 @@ async function register(userInfo) {
     const params = {
       TableName: userTable,
       Key: {
-        // usernaem is primary key
+        // username is primary key
         username: username
       }
     }
@@ -80,6 +80,6 @@ async function register(userInfo) {
     }, error => {
       console.error('There is an error saving user: ', error)
     });
-}
+  }
   
   module.exports.register = register;

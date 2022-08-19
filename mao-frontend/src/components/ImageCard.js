@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 export default function ImageCard(props, checked) {
   const classes = useStyles();
   return (
-<Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
+    <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
         <Card sx={{ maxWidth: 545, margin: "20px" }}>
         <CardMedia
             component="img"
             height="260"
             src={props.image}
-            alt="What is Mao?"
+            alt="Mao"
         />
         <CardContent>
             <Typography gutterBottom variant="h5" component="div" className={classes.title}>

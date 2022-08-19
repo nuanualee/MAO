@@ -52,6 +52,9 @@ const Navigation = () => {
               <LinkContainer to = "/signup">
                 <Nav.Link>Sign Up</Nav.Link>
               </LinkContainer>
+              <LinkContainer to = "/about">
+                <Nav.Link>About</Nav.Link>
+              </LinkContainer>
             </> 
           )}
 
@@ -62,6 +65,9 @@ const Navigation = () => {
               </LinkContainer>
               <LinkContainer to = "/mynotes">
                 <Nav.Link>My Notes</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to = "/about">
+                <Nav.Link>About</Nav.Link>
               </LinkContainer>
               <Nav className="me-auto">
                 <Nav.Link onClick={logoutHandler}>Sign Out</Nav.Link>
